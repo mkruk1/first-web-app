@@ -1,48 +1,23 @@
 from fastapi import FastAPI
-from typing import Dict
 from pydantic import BaseModel
+from typing import Dict
 
 app = FastAPI()
 
-@app.get("/")
-async def root ():
-    return {"method": "Hello World during the coronavirus pandemic!"}
-
-@app.get ("/method")
-async def getMethod ():
-    return {"method": "GET"}
-
-@app.post ("/method")
-async def postMethod ():
-    return {"method": "POST"}
+id_number = -1
 
 
-@app.put ("/method")
-async def putMethod ():
-    return {"method": "PUT"}
+class getSth (BaseModel):
+    first_key : Dict
 
 
-@app.delete ("/method")
-async def deleteMethod ():
-    return {"method": "DELETE"}
+class myResponse ():
+    received : Dict
+    id_number : int = id_number 
 
 
-"""
-class HelloResp (BaseModel):
-    msg: str
+@app.post ("/patient", response_model = myResponse)
+async def receive_sth (rq: getSth):
+    id_number += 1
+    return myResponse (received = rq.dict())
 
-@app.get("/method/", response_model = HelloResp)
-async def getMethod (name: str):
-    return HelloResp (msg="Hello {name}")
-
-class GiveMeSomethingRq (BaseModel):
-    first_key: str
-
-class GiveMeSomethingResp (BaseModel):
-    received: Dict
-    constant_data: str = "python jest super"
-
-@app.post("/post/", response_model = GiveMeSomethingResp)
-def receive_something (rq: GiveMeSomethingRq):
-    return GiveMeSomethingResp (received = rq.dict())
-    """
