@@ -1,23 +1,26 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import Dict
 from starlette.responses import RedirectResponse 
 
-app = FastAPI()
-patients = []
 
 
 class Patient ():
-    def __init__ (self, name, surname):
+    def __init__ (self, name, surename):
         self.name = name
-        self.surname = surname
+        self.surname = surename
+
+
+app = FastAPI()
+patients = []
+patients.append (Patient ("ja", "ty"))
 
 
 @app.get ("/patient/{pk}")
 def findPatient (pk: int):
     if (pk >= len (patients)):
-        return RedirectResponse (url= 'https://en.wikipedia.org/wiki/List_of_HTTP_status_codes') 
-    return {"name": patients [pk].name, "surname": patients [pk].surname }
+        return HTTPException(status_code = 204)
+    return {"name": patients [pk].name, "surename": patients [pk].surename }
 
 
 class My_rq (BaseModel):
@@ -27,4 +30,4 @@ class My_rq (BaseModel):
 @app.post ("/patient")
 def createPatient (rq: My_rq): 
     my_dict = rq.dict()
-    patients.append (Patient (my_dict ["name"], my_dict ["surname"]))
+    patients.append (Patient (my_dict ["name"], my_dict ["surename"]))
