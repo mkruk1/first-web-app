@@ -4,11 +4,11 @@ from typing import Dict
 
 app = FastAPI()
 
-id_number = -1 
+id_number = 0 
 
 @app.get ("/")
 async def showText ():
-    return {"message": "this works5"}
+    return {"message": "this works6"}
 
 
 class getSth (BaseModel):
@@ -16,14 +16,10 @@ class getSth (BaseModel):
     second_key : str
 
 
-class myResponse (BaseModel):
-    id : int 
-    patient : Dict
 
-
-@app.post ("/patient", response_model = myResponse)
+@app.post ("/patient")
 async def receive_sth (rq: getSth):
     id_number += 1
-    return myResponse (id = id_number, patient = {"name": first_key, "surename": second_key})
+    return {"id" : id_number, "patient" : {"name": getSth.first_key, "surename": getSth.second_key}}
 
 
