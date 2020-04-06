@@ -17,13 +17,13 @@ class getSth (BaseModel):
 
 
 class myResponse (BaseModel):
-    id : int = id_number 
+    id : int 
     patient : Dict
 
 
 @app.post ("/patient", response_model = myResponse)
 async def receive_sth (rq: getSth):
     id_number += 1
-    return myResponse (patient = {"name": str, "surename": str})
+    return myResponse (id = id_number, patient = {"name": first_key, "surename": second_key})
 
 
