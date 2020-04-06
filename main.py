@@ -8,6 +8,8 @@ app = FastAPI()
 async def root ():
     return {"method": "Hello World during the coronavirus pandemic!"}
 
+
+"""
 class HelloResp (BaseModel):
     msg: str
 
@@ -25,3 +27,4 @@ class GiveMeSomethingRespo (BaseModel):
 @app.post("/dej/mi/cos", reponse_model = GiveMeSomethingResp)
 def receive_something (rq: GiveMeSomethingRq):
     return GiveMeSomethingResp (received = rq.dict())
+"""
