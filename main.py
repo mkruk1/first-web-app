@@ -4,7 +4,7 @@ from typing import Dict
 
 app = FastAPI()
 
-id_number = 0 
+id_number = -1 
 
 @app.get ("/")
 async def showText ():
