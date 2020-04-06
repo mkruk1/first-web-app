@@ -12,14 +12,13 @@ async def showText ():
 
 
 class getSth (BaseModel):
-    first_key : str
-    second_key : str
+    received : Dict
 
 
 
 @app.post ("/patient")
 async def receive_sth (rq: getSth):
     id_number += 1
-    return {"id" : id_number, "patient" : {"name": getSth.first_key, "surename": getSth.second_key}}
+    return {"id" : id_number, "patient" : {"name": rq.received ["name"], "surename": rq.received ["surname"]}}
 
 
