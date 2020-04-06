@@ -1,6 +1,7 @@
 from fastapi import FastAPI
-#from typing import Dict
-#from pydantic import BaseModel
+from typing import Dict
+from pydantic import BaseModel
+
 app = FastAPI()
 
 @app.get("/")
@@ -8,7 +9,6 @@ async def root ():
     return {"method": "Hello World during the coronavirus pandemic!"}
 
 
-"""
 class HelloResp (BaseModel):
     msg: str
 
@@ -26,4 +26,3 @@ class GiveMeSomethingRespo (BaseModel):
 @app.post("/dej/mi/cos", reponse_model = GiveMeSomethingResp)
 def receive_something (rq: GiveMeSomethingRq):
     return GiveMeSomethingResp (received = rq.dict())
-"""
