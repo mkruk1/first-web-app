@@ -8,7 +8,7 @@ id_number = -1
 
 @app.get ("/")
 async def showText ():
-    return {"message": "this works2"}
+    return {"message": "this works4"}
 
 
 class getSth (BaseModel):
