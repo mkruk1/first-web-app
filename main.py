@@ -4,7 +4,7 @@ from typing import Dict
 
 app = FastAPI()
 
-id_number = -1
+id_number = 0 
 
 @app.get ("/")
 async def showText ():
@@ -16,7 +16,7 @@ class getSth (BaseModel):
 
 
 class myResponse (BaseModel):
-    id_number : int = id_number 
+    id : int = id_number 
     patient : Dict
 
 
