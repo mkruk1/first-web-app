@@ -13,11 +13,11 @@ class getSth (BaseModel):
 
 class myResponse (BaseModel):
     id_number : int = id_number 
-    received : Dict
+    patient : Dict
 
 
 @app.post ("/patient", response_model = myResponse)
 async def receive_sth (rq: getSth):
     id_number += 1
-    return myResponse (received = rq.dict())
+    return myResponse (patient = rq.dict())
 
