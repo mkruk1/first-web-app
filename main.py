@@ -12,8 +12,8 @@ class getSth (BaseModel):
 
 
 class myResponse (BaseModel):
-    received : Dict
     id_number : int = id_number 
+    received : Dict
 
 
 @app.post ("/patient", response_model = myResponse)
