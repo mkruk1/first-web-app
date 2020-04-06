@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from pydantic import BaseModel
 from typing import Dict
 
@@ -12,7 +12,8 @@ async def showText ():
 
 
 class getSth (BaseModel):
-    first_key : Dict
+    first_key : str
+    second_key : str
 
 
 class myResponse (BaseModel):
@@ -23,5 +24,6 @@ class myResponse (BaseModel):
 @app.post ("/patient", response_model = myResponse)
 async def receive_sth (rq: getSth):
     id_number += 1
-    return myResponse (patient = rq.dict())
+    return myResponse (patient = {"name": str, "surename": str})
+
 
