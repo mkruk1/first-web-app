@@ -11,7 +11,7 @@ class getSth (BaseModel):
     first_key : Dict
 
 
-class myResponse ():
+class myResponse (BaseModel):
     received : Dict
     id_number : int = id_number 
 
