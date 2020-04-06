@@ -14,7 +14,17 @@ class Patient ():
 
 
 @app.get ("/patient/{pk}")
-def read_item (pk: int):
+def findPatient (pk: int):
     if (pk >= len (patients)):
         return RedirectResponse (url= 'https://en.wikipedia.org/wiki/List_of_HTTP_status_codes') 
     return {"name": patients [pk].name, "surname": patients [pk].surname }
+
+
+class My_rq (BaseModel):
+    patient : Dict
+
+
+@app.post ("/patient")
+def createPatient (rq: My_rq): 
+    my_dict = rq.dict()
+    patients.append (Patient (my_dict ["name"], my_dict ["surname"]))
