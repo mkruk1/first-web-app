@@ -6,6 +6,10 @@ app = FastAPI()
 
 id_number = -1
 
+@app.get ("/")
+async def showText ():
+    return {"message": "this works"}
+
 
 class getSth (BaseModel):
     first_key : Dict
