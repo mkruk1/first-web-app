@@ -21,6 +21,7 @@ class GiveMeSomethingResp (BaseModel):
 
 @app.post ("/patient", )
 def receive_something (rq: GiveMeSomethingRq):
+    id_number += 1
     return GiveMeSomethingResp (id = id_number, patient = rq.dict())
 
 
