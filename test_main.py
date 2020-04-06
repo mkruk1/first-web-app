@@ -1,7 +1,10 @@
 from fastapi.testclient import TestClient
 import pytest
 
+from main import app
+
+client = TestClient (app)
+
 def test_receive_something():
-    with TestClient (app) as client:
-        response = client.post("/patient", json = {"name": "michal", "surename": "kruk"})
-        assert response.json() == {"id": 0, "patient": {"name": "michal", "surename": "kruk"}}
+    response = client.post("/patient", json={'name': 'a', 'surename': 'b'})
+    assert response.json() == {"id": 0, "patient": {'name': 'a', 'surename': 'b'}}
