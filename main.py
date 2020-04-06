@@ -8,7 +8,7 @@ id_number = 0
 
 @app.get ("/")
 async def showText ():
-    return {"message": "this works6"}
+    return {"message": "this works7"}
 
 
 class GiveMeSomethingRq (BaseModel):
@@ -21,8 +21,9 @@ class GiveMeSomethingResp (BaseModel):
 
 @app.post ("/patient", )
 def receive_something (rq: GiveMeSomethingRq):
+    global id_number 
     id_number += 1
-    return GiveMeSomethingResp (id = id_number, patient = rq.dict())
+    return {"id" : id_number, "patient" : rq.dict()}
 
 
 

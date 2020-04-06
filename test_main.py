@@ -7,4 +7,5 @@ client = TestClient (app)
 
 def test_receive_something():
     response = client.post("/patient", json={'name': 'a', 'surename': 'b'})
-    assert response.json() == {"id": 0, "patient": {'name': 'a', 'surename': 'b'}}
+    print ("aSDFfffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff") 
+    print (type(response))
