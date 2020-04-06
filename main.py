@@ -12,7 +12,7 @@ async def root ():
 class HelloResp (BaseModel):
     msg: str
 
-@app.get("/get", response_model = HelloResp)
+@app.get("/method/", response_model = HelloResp)
 async def getMethod (name: str):
     return HelloResp (msg=f "Hello {name}")
 
@@ -23,6 +23,6 @@ class GiveMeSomethingRespo (BaseModel):
     received: Dict
     constant_data: str = "python jest super"
 
-@app.post("/dej/mi/cos", reponse_model = GiveMeSomethingResp)
+@app.post("/post/", reponse_model = GiveMeSomethingResp)
 def receive_something (rq: GiveMeSomethingRq):
     return GiveMeSomethingResp (received = rq.dict())
