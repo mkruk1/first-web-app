@@ -4,7 +4,6 @@ from typing import Dict
 from starlette.responses import RedirectResponse 
 
 
-
 class Patient ():
     def __init__ (self, name, surename):
         self.name = name
@@ -15,6 +14,10 @@ app = FastAPI()
 patients = []
 patients.append (Patient ("ja", "ty"))
 
+
+@app.get ("/")
+def justBasicStuff ():
+    return HTTPException (status_code = 203)
 
 @app.get ("/patient/{pk}")
 def findPatient (pk: int):
