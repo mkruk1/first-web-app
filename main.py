@@ -11,16 +11,16 @@ security = HTTPBasic ()
     
 @app.post ("/login")
 def create_cookie (user: str, password: str, response: Response, credentials: HTTPBasicCredentials = Depends (security)):
-    username = secrets.compare_digest (credentials.username, "trudnY")
-    password = secrets.compare_digest (credentials.password, "PaC13Nt")
+    if_correct_username = secrets.compare_digest (credentials.username, "trudnY")
+    if_correct_password = secrets.compare_digest (credentials.password, "PaC13Nt")
 
-    if not (username and password):
+    if (!if_correct_username and !if_correct_password):
         raise HTTPException (status_code = 401)
 
     session_token = sha256 (bytes (f"{user}{password}{app.secret.key}", encoding='utf8'))
     app.tokens.append (session_token)
 
-    resposne = RedirectResponse (url = "/welcome")
+    response = RedirectResponse (url = "/welcome")
     response.set_cookie (key= "session_token", value = session_token)
 
     return response
