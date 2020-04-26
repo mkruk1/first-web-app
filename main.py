@@ -27,11 +27,11 @@ def login_validation (credentials: HTTPBasicCredentials = Depends (security)):
     return session_token
 
 
-
 @app.get ("/")
 def defaultPage ():
     return {"message": "default page"}
     
+
 @app.post ("/login")
 def login (response: Response, session_token: str = Depends (login_validation)):
     response = RedirectResponse (url = '/welcome')
@@ -39,15 +39,18 @@ def login (response: Response, session_token: str = Depends (login_validation)):
     response.set_cookie (key = "session_token", value = session_token)
     return response
 
+
 def cookies_validation (session_token: str = Cookie (None)):
     if session_token not in app.sessions:
         session_token = None
     return session_token
 
+
 @app.get ("/welcome") 
 def welcome (response: Response, session_token: str = Depends (cookies_validation)):
     if session_token == None:
         raise HTTPException (status_code = 401)
+        return
 
     return templates.TemplateResponse ("item.html", {"request": request, "user": "trudnY"})
 
