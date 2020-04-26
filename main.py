@@ -14,8 +14,8 @@ def create_cookie (user: str, password: str, response: Response, credentials: HT
     if_correct_username = secrets.compare_digest (credentials.username, "trudnY")
     if_correct_password = secrets.compare_digest (credentials.password, "PaC13Nt")
 
-    if (!if_correct_username and !if_correct_password):
-        raise HTTPException (status_code = 401)
+    if ((not if_correct_username) and (not if_correct_password)):
+        raise HTTPException (status_code = status.HTTP_401_UNAUTHORISED)
 
     session_token = sha256 (bytes (f"{user}{password}{app.secret.key}", encoding='utf8'))
     app.tokens.append (session_token)
