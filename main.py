@@ -1,5 +1,8 @@
-from fastapi import FastAPI, Cookie, Response, HTTPException, Depends, status
+from fastapi import FastAPI, Cookie, Response, Request, HTTPException, Depends, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
+from fastapi.responses import JSONResponse
+from fastapi.encoders import jsonable_encoder
+
 from hashlib import sha256
 from starlette.responses import RedirectResponse
 import secrets
@@ -24,13 +27,19 @@ def login_validation (credentials: HTTPBasicCredentials = Depends (security)):
     
 @app.post ("/login")
 def login (response: Response, session_token: str, credentials = Depends (login_validation)):
-    response = redirectresponse (url = '/welcome')
-    response.status_code = status.HTTP_302_FOUND
+    response = RedirectResponse (url = '/welcome')
     return response
 
+def cookies_validation (session_token: str = Cookie (None)):
+    if session_token not in app.sessions:
+        session_token = None
+    return session_token
 
 @app.get ("/welcome") 
-def welcome (*, response: Response, session_token: str = Cookie (None)):
-    raise HTTPException (status_code = 302)
+def welcome (request: Request, response: Response, session_token: str = Depends (cookies_validation)):
+    if session_token == None:
+        raise HTTPException (status_code = 401)
+    
+    return JSONResponse (status_code = 302, content = jsonable_encode ({"message": "hello"}))
 
     
