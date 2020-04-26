@@ -24,10 +24,12 @@ def login_validation (credentials: HTTPBasicCredentials = Depends (security)):
     
 @app.post ("/login")
 def login (response: Response, session_token: str, credentials = Depends (login_validation)):
-    return RedirectResponse (url = '/welcome')
+    response = redirectresponse (url = '/welcome')
+    response.status_code = status.HTTP_302_FOUND
+    return response
 
 
-@app.get ("/welcome", status_code = status.HTTP_302_FOUND) 
+@app.get ("/welcome") 
 def welcome (*, response: Response, session_token: str = Cookie (None)):
     return {"message": "you are welcome!"}  
 
