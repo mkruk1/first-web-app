@@ -47,11 +47,12 @@ def cookies_validation (session_token: str = Cookie (None)):
 
 
 @app.get ("/welcome") 
-def welcome (response: Response, session_token: str = Depends (cookies_validation)):
-#    if session_token == None:
-#        raise HTTPException (status_code = 401)
-
-    return templates.TemplateResponse ("item.html", {"request": request, "user": "trudnY"})
+def welcome (request: Request, response: Response, session_token: str = Depends (cookies_validation)):
+    if session_token == None:
+        raise HTTPException (status_code = 401)
+    
+    username = app.sessions [session_token]
+    return templates.TemplateResponse ("item.html", {"request": request, "user": username})
 
 
 @app.post ("/logout")
