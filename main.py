@@ -42,4 +42,11 @@ def welcome (request: Request, response: Response, session_token: str = Depends 
     
     return JSONResponse (status_code = 302, content = jsonable_encode ({"message": "hello"}))
 
-    
+@app.post ("/logout")
+def logout (response: Response, session_token: str = Depends (cookies_validation)):
+    if session_token is None:
+        response.status_code = status.HTTP_401_UNAUTHORIZED
+        return MESSAGE_UNAUTHORIZED
+    response.status_code = status.HTTP_302_FOUND
+    response.headers ["Location"] = "/"
+    app.sessions.pop (session_token)
