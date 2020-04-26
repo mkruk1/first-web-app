@@ -25,6 +25,10 @@ def login_validation (credentials: HTTPBasicCredentials = Depends (security)):
     return session_token
 
 
+
+@app.get ("/")
+def defaultPage ():
+    return {"message": "default page"}
     
 @app.post ("/login")
 def login (response: Response, session_token: str = Depends (login_validation)):
@@ -50,9 +54,11 @@ def welcome (response: Response, session_token: str = Depends (cookies_validatio
 def logout (response: Response, session_token: str = Depends (cookies_validation)):
     if session_token is None:
         response.status_code = status.HTTP_401_UNAUTHORIZED
-        return MESSAGE_UNAUTHORIZED
-    response.status_code = status.HTTP_302_FOUND
-    response.headers ["Location"] = "/"
+        return {"message": "unauthorised"}
+    
     app.sessions.pop (session_token)
+
+    response = RedirectResponse (url = "/")
+    response.status_code = status.HTTP_302_FOUND
     return response
 
