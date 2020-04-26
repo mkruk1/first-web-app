@@ -9,6 +9,7 @@ import secrets
 
 app = FastAPI ()
 app.sessions= {}
+app.secret_key = "sasdfasfadfasfdhkldfjahsfkjlakdfjahsdlfkjahsflkjashflkahsdfklahsfldkhaslfkhakf"
 security = HTTPBasic ()
 
 
@@ -19,7 +20,7 @@ def login_validation (credentials: HTTPBasicCredentials = Depends (security)):
     if not (correct_username and correct_password):
         raise HTTPException (status_code = status.HTTP_401_UNAUTHORIZED, detail = 'Incorrect login or password', headers = {"WWW-Authenticate": "Basic"})
 
-    session_token = sha256 (bytes (f"{credentials.username}{credentials.password}{app.secret_key}", endcoding='utf8')).hexdigest ()
+    session_token = sha256 (bytes (f"{credentials.username}{credentials.password}{app.secret_key}", encoding='utf8')).hexdigest ()
     app.sessions [session_token] = credentials.username
     return session_token
 
@@ -41,8 +42,9 @@ def cookies_validation (session_token: str = Cookie (None)):
 def welcome (response: Response, session_token: str = Depends (cookies_validation)):
     if session_token == None:
         raise HTTPException (status_code = 401)
-    
-    return {"message": "hello"}
+
+    return JSONResponse (status_code = 302, content = ({"message": "hello"}))
+
 
 @app.post ("/logout")
 def logout (response: Response, session_token: str = Depends (cookies_validation)):
