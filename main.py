@@ -20,10 +20,10 @@ def create_cookie (user: str, password: str, response: Response, credentials: HT
     session_token = sha256 (bytes (f"{user}{password}{app.secret.key}", encoding='utf8'))
     app.tokens.append (session_token)
 
+    resposne = RedirectResponse (url = "/welcome")
     response.set_cookie (key= "session_token", value = session_token)
-    response.status_code = status.HTTP_302_FOUND
 
-    return RedirectResponse (url = "/welcome")
+    return response
 
 
 @app.get ("/welcome") 
