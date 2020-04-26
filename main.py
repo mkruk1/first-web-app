@@ -27,7 +27,7 @@ def login (response: Response, session_token: str, credentials = Depends (login_
     return RedirectResponse (url = '/welcome')
 
 
-@app.get ("/welcome") 
+@app.get ("/welcome", status_code = status.HTTP_302_FOUND) 
 def welcome (*, response: Response, session_token: str = Cookie (None)):
     return {"message": "you are welcome!"}  
 
