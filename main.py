@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Cookie, Response, HTTPException, Depends
+from fastapi import FastAPI, Cookie, Response, HTTPException, Depends, status
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from hashlib import sha256
 from starlette.responses import RedirectResponse
@@ -21,7 +21,7 @@ def create_cookie (user: str, password: str, response: Response, credentials: HT
     app.tokens.append (session_token)
 
     response.set_cookie (key= "session_token", value = session_token)
-    response = RedirectResponse (url = "/welcome")
+    response.status_code = status.HTTP_302_FOUND
 
     return RedirectResponse (url = "/welcome")
 
