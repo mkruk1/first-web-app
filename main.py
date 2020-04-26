@@ -24,7 +24,6 @@ def login_validation (credentials: HTTPBasicCredentials = Depends (security)):
     
 @app.post ("/login")
 def login (response: Response, session_token: str, credentials = Depends (login_validation)):
-    response.status_code = status.HTTP_302_FOUND
     return RedirectResponse (url = '/welcome')
 
 
