@@ -2,6 +2,7 @@ from fastapi import FastAPI, Cookie, Response, Request, HTTPException, Depends, 
 from fastapi.security import HTTPBasic, HTTPBasicCredentials
 from fastapi.responses import JSONResponse
 from fastapi.encoders import jsonable_encoder
+from fastapi.templating import Jinja2Templates
 
 from hashlib import sha256
 from starlette.responses import RedirectResponse
@@ -11,6 +12,7 @@ app = FastAPI ()
 app.sessions= {}
 app.secret_key = "sasdfasfadfasfdhkldfjahsfkjlakdfjahsdlfkjahsflkjashflkahsdfklahsfldkhaslfkhakf"
 security = HTTPBasic ()
+templates = Jinja2Templates (directory = "templates");
 
 
 def login_validation (credentials: HTTPBasicCredentials = Depends (security)):
@@ -47,7 +49,7 @@ def welcome (response: Response, session_token: str = Depends (cookies_validatio
     if session_token == None:
         raise HTTPException (status_code = 401)
 
-    return JSONResponse (status_code = 200, content = ({"message": "hello"}))
+    return templates.TemplateResponse ("item.html", {"request": request, "user": "trudnY"})
 
 
 @app.post ("/logout")
