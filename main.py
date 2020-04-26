@@ -31,6 +31,6 @@ def login (response: Response, session_token: str, credentials = Depends (login_
 
 @app.get ("/welcome") 
 def welcome (*, response: Response, session_token: str = Cookie (None)):
-    return {"message": "you are welcome!"}  
+    raise HTTPException (status_code = 302)
 
     
