@@ -26,8 +26,10 @@ def login_validation (credentials: HTTPBasicCredentials = Depends (security)):
 
     
 @app.post ("/login")
-def login (response: Response, session_token: str, credentials = Depends (login_validation)):
+def login (response: Response, session_token: str = Depends (login_validation)):
     response = RedirectResponse (url = '/welcome')
+    response.status_code =  status.HTTP_302_FOUND
+    response.set_cookie (key = "session_token", value = session_token)
     return response
 
 def cookies_validation (session_token: str = Cookie (None)):
@@ -36,11 +38,11 @@ def cookies_validation (session_token: str = Cookie (None)):
     return session_token
 
 @app.get ("/welcome") 
-def welcome (request: Request, response: Response, session_token: str = Depends (cookies_validation)):
+def welcome (response: Response, session_token: str = Depends (cookies_validation)):
     if session_token == None:
         raise HTTPException (status_code = 401)
     
-    return JSONResponse (status_code = 302, content = jsonable_encode ({"message": "hello"}))
+    return {"message": "hello"}
 
 @app.post ("/logout")
 def logout (response: Response, session_token: str = Depends (cookies_validation)):
