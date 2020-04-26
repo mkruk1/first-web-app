@@ -43,7 +43,7 @@ def welcome (response: Response, session_token: str = Depends (cookies_validatio
     if session_token == None:
         raise HTTPException (status_code = 401)
 
-    return JSONResponse (status_code = 302, content = ({"message": "hello"}))
+    return JSONResponse (status_code = 200, content = ({"message": "hello"}))
 
 
 @app.post ("/logout")
