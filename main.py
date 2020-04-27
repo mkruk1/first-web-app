@@ -91,9 +91,7 @@ def deletePatient (pk: int, session_token: str = Depends (cookies_validation)):
         raise HTTPException (status_code = 401)
 
     app.patients_list.pop (pk)
-
-    response = RedirectResponse (url = "/patient")
-    response.status_code = status.HTTP_302_FOUND
+    app.id_number -= 1 
     return response
 
 
