@@ -103,7 +103,7 @@ def createPatient (patient: Patient, session_token: str = Depends (cookies_valid
     app.patients_list.append (patient.dict ())
     app.id_number += 1
 
-    response = RedirectResponse (url = (f"patient/{app.id_number}"))
+    response = RedirectResponse (url = (f"/patient/{app.id_number}"))
     response.status_code = status.HTTP_302_FOUND
 
     return response
