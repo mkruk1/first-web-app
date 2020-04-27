@@ -90,9 +90,9 @@ def deletePatient (pk: int, session_token: str = Depends (cookies_validation)):
     if session_token == None:
         raise HTTPException (status_code = 401)
 
-    app.patients_list.pop (pk)
+    app.patients_list.pop (pk, None)
     app.id_number -= 1 
-    return response
+    response.status_code = status.HTTP_204_NO_CONTENT
 
 
 @app.post ("/patient")
