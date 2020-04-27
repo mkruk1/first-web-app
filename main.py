@@ -6,6 +6,7 @@ from fastapi.templating import Jinja2Templates
 from pydantic import BaseModel
 from hashlib import sha256
 from starlette.responses import RedirectResponse
+import json
 import secrets
 
 app = FastAPI ()
@@ -70,42 +71,55 @@ def logout (response: Response, session_token: str = Depends (cookies_validation
 
 class Patient (BaseModel):
     name: str
-    surename: str
+    surname: str
 
-patients_list = []
-id_number = -1
+app.patients_list = []
+app.id_number = -1
 
 @app.get ("/patient/{pk}")
 def findPatient (pk: int, session_token: str = Depends (cookies_validation)):
     if session_token == None:
         raise HTTPException (status_code = 401)
-    if pk > id_number:
+    if pk > app.id_number:
         raise HTTPException (status_code = 204)
 
-    return patients_list [pk]
+    return app.patients_list [pk]
+
+@app.delete ("/patient/{pk}")
+def deletePatient (pk: int, session_token: str = Depends (cookies_validation)):
+    if session_token == None:
+        raise HTTPException (status_code = 401)
+
+    app.patients_list.pop (pk)
 
 
-@app.post ("/patient", response_model = Patient)
+@app.post ("/patient")
 def createPatient (patient: Patient, session_token: str = Depends (cookies_validation)): 
     if session_token == None:
         raise HTTPException (status_code = 401)
 
-    patients_list.append (patient.dict ())
-    id_number += 1
+    app.patients_list.append (patient.dict ())
+    app.id_number += 1
 
-    response = RedirectResponse (url = "patient/{id_number}")
+    response = RedirectResponse (url = (f"patient/{app.id_number}"))
     response.status_code = status.HTTP_302_FOUND
 
     return response
 
+def convertToDict ():
+    listOfStr = []
+    for x in range (app.id_number):
+        listOfStr.append (f"id_{x}")
+    
+    zipObj = zip (listOfStr, app.patients_list)
+    return dict (zipObj)
+
+
+
 @app.get ("/patient")
-def allPatients (str = Depends (cookies_validation)):
+def allPatients (session_token: str = Depends (cookies_validation)):
     if session_token == None:
         raise HTTPException (status_code = 401)
-
-    return patients_list
-
-
-
-
+    
+    return convertToDict ()
 
