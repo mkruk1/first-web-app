@@ -25,7 +25,6 @@ def findPatient (pk: int):
     return patients_list [pk]
 
 
-
 @app.post ("/patient", response_model = Patient)
 def createPatient (patient: Patient): 
     patients_list.append (patient.dict ())
