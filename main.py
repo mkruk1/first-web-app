@@ -92,13 +92,17 @@ def deletePatient (pk: int, session_token: str = Depends (cookies_validation)):
 
     app.patients_list.pop (pk)
 
+    response = RedirectResponse (url = "/patient")
+    response.status_code = status.HTTP_302_FOUND
+    return response
+
 
 @app.post ("/patient")
 def createPatient (patient: Patient, session_token: str = Depends (cookies_validation)): 
     if session_token == None:
         raise HTTPException (status_code = 401)
 
-    app.patients_list.append (patient.dict ())
+    app.patients_list.append (patient)
     app.id_number += 1
 
     response = RedirectResponse (url = (f"patient/{app.id_number}"))
